@@ -18,8 +18,9 @@ int main(int argc, char **argv)
 {
 	/*TODO: load the command line argument for the command line 
 	 * argv[1] the path to the executable 
-	 * argv[2] the path to the signature
-	 * argv[3] the path that the executable should be retricted
+	 * argv[2] the path to the signature (Note: We only use existing key in the keyring)
+  	 * argv[3] the path to the checksum file
+	 * argv[4] the path that the executable should be retricted
 	 * if not signed properly
 	 * */
 	struct lsm_bpf *skel;
