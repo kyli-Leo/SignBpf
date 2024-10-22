@@ -16,11 +16,21 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va
 
 int main(int argc, char **argv)
 {
+	/*TODO: load the command line argument for the command line 
+	 * argv[1] the path to the executable 
+	 * argv[2] the path to the signature
+	 * argv[3] the path that the executable should be retricted
+	 * if not signed properly
+	 * */
 	struct lsm_bpf *skel;
 	int err;
 
 	/* Set up libbpf errors and debug info callback */
 	libbpf_set_print(libbpf_print_fn);
+	/* TODO: Add the part where we check if the signature 
+	 * fits with the executable
+	 *
+	 * */
 
 	/* Open, load, and verify BPF application */
 	skel = lsm_bpf__open_and_load();
