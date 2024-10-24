@@ -101,6 +101,12 @@ int main(int argc, char **argv)
 		printf("Usage: lsm [limit path]\n");
 		return 0;
 	}
+	char checksum[65]
+	if (compute_sha256(argv[1], checksum)) {
+		perror("sha256");
+		return -1;
+	}
+	printf(checksum);
 	return 0;
 	/* TODO: Add the part where we check if the signature 
          * fits with the executable
