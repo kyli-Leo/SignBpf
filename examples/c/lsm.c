@@ -16,13 +16,25 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va
 
 int main(int argc, char **argv)
 {
-	/*TODO: load the command line argument for the command line 
+	/* TODO: load the command line argument for the command line 
 	 * argv[1] the path to the executable 
 	 * argv[2] the path to the signature (Note: We only use existing key in the keyring)
   	 * argv[3] the path to the checksum file
 	 * argv[4] the path that the executable should be retricted
 	 * if not signed properly
 	 * */
+
+
+	if (argc == 5) {
+
+
+	} else if (argc == 2) {
+
+	} else {
+		printf("Usage: lsm [path to execuatable] [path to signature] [path to checksum] [limit path]\n")
+		printf("Usage: lsm [limit path]\n")
+		return 0;
+	}
 	struct lsm_bpf *skel;
 	int err;
 
