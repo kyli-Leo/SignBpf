@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/resource.h>
+#include <sys/stat.h>
 #include <bpf/libbpf.h>
 #include "lsm.skel.h"
 
@@ -26,13 +27,36 @@ int main(int argc, char **argv)
 
 
 	if (argc == 5) {
+		if (access(argv[1], X_OK) != 0) {
+			fprintf(stderr, "File does not exist or no permission to execute\n");
+			return -1;
+		}
+		if (access(arg[2], R_OK) != 0) {
+			fprintf(stderr, "Signature does not exist or no permission to read\n");
+			return -1;
+		}
+		if (access(arg[3], R_OK) != 0) {
+			fprintf(stderr, "Checksum does not exist or no permission to read\n");
+			return -1;
+		}
+		struct stat stats;
+		stat(argv[4], &stats);
+		if (!S_ISDIR(stats.st_mode)) {
+			fprintf(stderr, "Restric directory does not exist\n");
+			return -1;
+		}
+
 
 
 	} else if (argc == 2) {
+		if (!S_ISDIR(stats.st_mode)) {
+			fprintf(stderr, "Restric directory does not exist\n");
+			return -1;
+		}
 
 	} else {
-		printf("Usage: lsm [path to execuatable] [path to signature] [path to checksum] [limit path]\n")
-		printf("Usage: lsm [limit path]\n")
+		printf("Usage: lsm [path to execuatable] [path to signature] [path to checksum] [limit path]\n");
+		printf("Usage: lsm [limit path]\n");
 		return 0;
 	}
 	struct lsm_bpf *skel;
