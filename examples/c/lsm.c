@@ -27,20 +27,37 @@ int main(int argc, char **argv)
 
 
 	if (argc == 5) {
-		if (access(argv[1], X_OK) != 0) {
+		struct stat stats;
+		if (stat(argv[1], &stats) != 0) {
+        		perror("stat");
+     		   	return 1;
+    		}
+		if (!S_ISREG(stats.st_mode) || access(argv[1], X_OK) != 0) {
 			fprintf(stderr, "File does not exist or no permission to execute\n");
 			return -1;
 		}
-		if (access(arg[2], R_OK) != 0) {
+		if (stat(argv[2], &stats) != 0) {
+                        perror("stat");
+                        return 1;
+                }
+		if (!S_ISREG(stats.st_mode) || access(argv[2], R_OK) != 0) {
 			fprintf(stderr, "Signature does not exist or no permission to read\n");
 			return -1;
 		}
-		if (access(arg[3], R_OK) != 0) {
+		if (stat(argv[3], &stats) != 0) {
+                        perror("stat");
+                        return 1;
+                }
+
+		if (!S_ISREG(stats.st_mode) || access(argv[3], R_OK) != 0) {
 			fprintf(stderr, "Checksum does not exist or no permission to read\n");
 			return -1;
 		}
-		struct stat stats;
-		stat(argv[4], &stats);
+		if (stat(argv[4], &stats) != 0) {
+                        perror("stat");
+                        return 1;
+                }
+
 		if (!S_ISDIR(stats.st_mode)) {
 			fprintf(stderr, "Restric directory does not exist\n");
 			return -1;
@@ -49,6 +66,9 @@ int main(int argc, char **argv)
 
 
 	} else if (argc == 2) {
+		struct stat stats;
+                stat(argv[1], &stats);
+
 		if (!S_ISDIR(stats.st_mode)) {
 			fprintf(stderr, "Restric directory does not exist\n");
 			return -1;
@@ -59,6 +79,7 @@ int main(int argc, char **argv)
 		printf("Usage: lsm [limit path]\n");
 		return 0;
 	}
+	return 0;
 	struct lsm_bpf *skel;
 	int err;
 
