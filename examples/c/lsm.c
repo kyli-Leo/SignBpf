@@ -2,6 +2,8 @@
 /* Copyright (c) 2024 David Di */
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <bpf/libbpf.h>
@@ -15,9 +17,29 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va
 	return vfprintf(stderr, format, args);
 }
 
+/* Method to compute the checksum from the file and output it to sha256_output
+ * Return 0 if no error, else return 1
+ * 
+ * */
+int compute_sha256(const char *executable_path, char * sha256_output) {
+	char command [512]
+	snprintf(command, sizeof(command), "sha256sum %s", executable_path);
+	FILE* file = popen(command, "r");
+	if (!file) {
+		perror("sha256 popen");
+		return 1;
+	}	
+	if (fgets(output, 65, pipe) == NULL) {
+		perror("sha256 pipe out")
+		return 1;
+	}
+	pclose(file);
+	return 0;
+}
+
 int main(int argc, char **argv)
 {
-	/* TODO: load the command line argument for the command line 
+	/* load the command line argument for the command line 
 	 * argv[1] the path to the executable 
 	 * argv[2] the path to the signature (Note: We only use existing key in the keyring)
   	 * argv[3] the path to the checksum file
@@ -80,15 +102,17 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	return 0;
+	/* TODO: Add the part where we check if the signature 
+         * fits with the executable
+         *
+         * */
+
+
 	struct lsm_bpf *skel;
 	int err;
 
 	/* Set up libbpf errors and debug info callback */
 	libbpf_set_print(libbpf_print_fn);
-	/* TODO: Add the part where we check if the signature 
-	 * fits with the executable
-	 *
-	 * */
 
 	/* Open, load, and verify BPF application */
 	skel = lsm_bpf__open_and_load();
