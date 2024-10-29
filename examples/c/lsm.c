@@ -21,16 +21,16 @@ static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va
  * Return 0 if no error, else return 1
  * 
  * */
-int compute_sha256(const char *executable_path, char * sha256_output) {
-	char command [512]
+int compute_sha256(const char *executable_path, char *sha256_output) {
+	char command [512];
 	snprintf(command, sizeof(command), "sha256sum %s", executable_path);
 	FILE* file = popen(command, "r");
 	if (!file) {
 		perror("sha256 popen");
 		return 1;
 	}	
-	if (fgets(output, 65, pipe) == NULL) {
-		perror("sha256 pipe out")
+	if (fgets(sha256_output, 65, file) == NULL) {
+		perror("sha256 pipe out");
 		return 1;
 	}
 	pclose(file);
@@ -53,32 +53,32 @@ int main(int argc, char **argv)
 		if (stat(argv[1], &stats) != 0) {
         		perror("stat");
      		   	return 1;
-    		}
+    	}
 		if (!S_ISREG(stats.st_mode) || access(argv[1], X_OK) != 0) {
 			fprintf(stderr, "File does not exist or no permission to execute\n");
 			return -1;
 		}
 		if (stat(argv[2], &stats) != 0) {
-                        perror("stat");
-                        return 1;
-                }
+            perror("stat");
+            return 1;
+        }
 		if (!S_ISREG(stats.st_mode) || access(argv[2], R_OK) != 0) {
 			fprintf(stderr, "Signature does not exist or no permission to read\n");
 			return -1;
 		}
 		if (stat(argv[3], &stats) != 0) {
-                        perror("stat");
-                        return 1;
-                }
+            perror("stat");
+            return 1;
+        }
 
 		if (!S_ISREG(stats.st_mode) || access(argv[3], R_OK) != 0) {
 			fprintf(stderr, "Checksum does not exist or no permission to read\n");
 			return -1;
 		}
 		if (stat(argv[4], &stats) != 0) {
-                        perror("stat");
-                        return 1;
-                }
+            perror("stat");
+            return 1;
+        }
 
 		if (!S_ISDIR(stats.st_mode)) {
 			fprintf(stderr, "Restric directory does not exist\n");
@@ -87,9 +87,20 @@ int main(int argc, char **argv)
 
 
 
-	} else if (argc == 2) {
+	} else if (argc == 3) {
 		struct stat stats;
-                stat(argv[1], &stats);
+		if (stat(argv[1], &stats) != 0) {
+        	perror("stat");
+     		return 1;
+    	}
+		if (!S_ISREG(stats.st_mode) || access(argv[1], X_OK) != 0) {
+			fprintf(stderr, "File does not exist or no permission to execute\n");
+			return -1;
+		}
+        if (stat(argv[2], &stats) != 0) {
+        	perror("stat");
+     		return 1;
+    	}
 
 		if (!S_ISDIR(stats.st_mode)) {
 			fprintf(stderr, "Restric directory does not exist\n");
@@ -97,16 +108,16 @@ int main(int argc, char **argv)
 		}
 
 	} else {
-		printf("Usage: lsm [path to execuatable] [path to signature] [path to checksum] [limit path]\n");
-		printf("Usage: lsm [limit path]\n");
+		printf("Usage: lsm [path to executable] [path to signature] [path to checksum] [limit path]\n");
+		printf("Usage: lsm [path to executable] [limit path]\n");
 		return 0;
 	}
-	char checksum[65]
+	char checksum[65];
 	if (compute_sha256(argv[1], checksum)) {
 		perror("sha256");
 		return -1;
 	}
-	printf(checksum);
+	printf("%s\n", checksum);
 	return 0;
 	/* TODO: Add the part where we check if the signature 
          * fits with the executable
