@@ -37,7 +37,7 @@ int compute_sha256(const char *executable_path, char *sha256_output) {
 	pclose(file);
 	return 0;
 }
-/* TODO: Finish the function that compare the our checksum with actual checksum
+/* Compare our checksum with actual checksum
 *  Open the file to read the supposed checksum
 *  Return 0 if they match, 1 if not.
 *
@@ -45,6 +45,27 @@ int compute_sha256(const char *executable_path, char *sha256_output) {
 */
 
 int compare_sha256(const char *actual_checksum_path, const char *computed_sha256) {
+	char checksum[65];
+
+	// Open the checksum file
+	File *file = fopen(actual_checksum_path, "r");
+	if (!file) {
+		perror("checksum file open");
+		return 1;
+	}
+
+	// Read the checksum file
+	if (fgets(checksum, 65, file) == NULL) {
+		perror("checksum file read");
+		return 1;
+	}
+	fclose(file);
+
+	// Compare the checksums
+	if (strcmp(checksum, computed_sha256) != 0) {
+		return 1;
+	}
+
 	return 0;
 }
 
