@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
@@ -182,23 +183,38 @@ int main(int argc, char **argv)
 			skel = lsm_bpf__open_and_load();
 			if (!skel) {
 				fprintf(stderr, "Failed to open and load BPF skeleton\n");
+				kill(pid, SIGKILL);
 				goto cleanup;
 			}
+			skel->rodata->restricted_pid = pid;
+			struct stat stats2;
+			if (stat(argv[1], &stats2) != 0) {
+				perror("stat 2");
+				kill(pid, SIGKILL);
+				goto cleanup;
+			}
+			__u64 restricted_inode = stats2.st_ino;  
+			__u32 value = 1; 
 
-			//TODO: UPDATE BPF Map 
+			err = bpf_map__update_elem(skel->maps.restricted_inodes_map, &restricted_inode, sizeof(restricted_inode), &value, sizeof(value), BPF_ANY);
+			if (err) {
+				fprintf(stderr, "Failed to update BPF map element\n");
+				kill(pid, SIGKILL);
+				goto cleanup;
+			}
 
 			/* Attach lsm handler */
 			err = lsm_bpf__attach(skel);
 			if (err) {
 				fprintf(stderr, "Failed to attach BPF skeleton\n");
+				kill(pid, SIGKILL);
 				goto cleanup;
 			}
 			write(pipefd[1], "", 1);
 			close(pipefd[1]); 
 
 			int status;
-			waitpid(pid, &status, 0);  // Wait for child to finish
-
+			waitpid(pid, &status, 0);  
 			cleanup:
 				close(pipefd[1]);
 				lsm_bpf__destroy(skel);
