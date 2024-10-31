@@ -48,7 +48,7 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 	char checksum[65];
 
 	// Open the checksum file
-	File *file = fopen(actual_checksum_path, "r");
+	FILE *file = fopen(actual_checksum_path, "r");
 	if (!file) {
 		perror("checksum file open");
 		return 1;
@@ -208,7 +208,7 @@ int main(int argc, char **argv)
 	} else {
 		if (execvp(argv[4], &argv[4]) == -1) {
 			perror("execvp");  
-			return 1
+			return 1;
 		}
 	}
 }
