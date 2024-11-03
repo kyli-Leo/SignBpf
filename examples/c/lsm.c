@@ -129,7 +129,7 @@ int main(int argc, char **argv)
 		}
 
 	} else {
-		printf("Usage: lsm [path to executable] [path to signature] [path to checksum] [limit path] [...] additional argument\n");
+		printf("Usage: lsm [path to restrict path] [path to signature] [path to checksum] [path to execuatable] [...] additional argument\n");
 		return 0;
 	}
 
@@ -186,7 +186,6 @@ int main(int argc, char **argv)
 				kill(pid, SIGKILL);
 				goto cleanup;
 			}
-			skel->rodata->restricted_pid = pid;
 			struct stat stats2;
 			if (stat(argv[1], &stats2) != 0) {
 				perror("stat 2");
@@ -195,8 +194,16 @@ int main(int argc, char **argv)
 			}
 			__u64 restricted_inode = stats2.st_ino;  
 			__u32 value = 1; 
+			__u32 pid_u32 = (__u32)pid;
 
 			err = bpf_map__update_elem(skel->maps.restricted_inodes_map, &restricted_inode, sizeof(restricted_inode), &value, sizeof(value), BPF_ANY);
+			if (err) {
+				fprintf(stderr, "Failed to update BPF map element\n");
+				kill(pid, SIGKILL);
+				goto cleanup;
+			}
+
+			err = bpf_map__update_elem(skel->maps.restricted_pid_map, &pid_u32, sizeof(pid_u32), &value, sizeof(value), BPF_ANY);
 			if (err) {
 				fprintf(stderr, "Failed to update BPF map element\n");
 				kill(pid, SIGKILL);
