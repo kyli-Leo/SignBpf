@@ -139,15 +139,20 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	if (!compare_sha256(argv[3], checksum)) {
+		printf("The sha256 checksum matched\n");
 		if (!checkSignature(argv[3], argv[2])) {
 			limit = 0;
+			printf("signature check passed\n");
 		} else {
 			limit = 1;
+			printf("signature check failed\n");
 		}
 	} else {
+		printf("The sha256 checksum does not match\n");
 		limit = 1;
 	}
 	if (limit) {
+		printf("Now executing the software with limit\n");
 		int pipefd[2];
 		if (pipe(pipefd) == -1) {
 			perror("pipe");
@@ -229,6 +234,7 @@ int main(int argc, char **argv)
 		}
 
 	} else {
+		printf("Now executing the software without limit\n");
 		if (execvp(argv[4], &argv[4]) == -1) {
 			perror("execvp");  
 			return 1;
