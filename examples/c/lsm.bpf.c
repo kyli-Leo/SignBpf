@@ -1,7 +1,7 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
-char LICENSE[] SEC("license") = "GPL";
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 #define EPERM  1
 
@@ -48,4 +48,28 @@ int tracepoint_sched_process_fork(struct trace_event_raw_sched_process_fork *ctx
     }
 
     return 0;
+}
+
+SEC("tp/sched/sched_process_exit")
+int handle_exit(struct trace_event_raw_sched_process_template *ctx)
+{
+	struct task_struct *task;
+	pid_t pid, tid;
+	u64 id;
+
+    __u32 pid32 = (__u32) pid;
+
+	id = bpf_get_current_pid_tgid();
+	pid = id >> 32;
+	tid = (u32)id;
+
+	if (pid != tid)
+		return 0;
+    
+    __u32 *is_restricted_pid = bpf_map_lookup_elem(&restricted_pid_map, &pid32);
+    if (is_restricted_pid != NULL) {
+        bpf_map_delete_elem(&restricted_pid_map, &pid32);
+    }
+
+	return 0;
 }

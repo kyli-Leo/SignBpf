@@ -119,14 +119,9 @@ int main(int argc, char **argv)
 			return -1;
 		}
 		if (stat(argv[1], &stats) != 0) {
-            perror("stat");
+            perror(" limit path stat");
             return 1;
         }
-
-		if (!S_ISDIR(stats.st_mode)) {
-			fprintf(stderr, "Restric directory does not exist\n");
-			return -1;
-		}
 
 	} else {
 		printf("Usage: lsm [path to restrict path] [path to signature] [path to checksum] [path to execuatable] [...] additional argument\n");
