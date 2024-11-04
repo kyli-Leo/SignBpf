@@ -14,10 +14,10 @@
 /* Notice: Ensure your kernel version is 5.7 or higher, BTF (BPF Type Format) is enabled, 
  * and the file '/sys/kernel/security/lsm' includes 'bpf'.
  */
-static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args)
-{
-	return vfprintf(stderr, format, args);
-}
+//static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args)
+//{
+	//return vfprintf(stderr, format, args);
+//}
 
 /* Method to compute the checksum from the file and output it to sha256_output
  * Return 0 if no error, else return 1
@@ -176,7 +176,7 @@ int main(int argc, char **argv)
 			int err;
 
 			/* Set up libbpf errors and debug info callback */
-			libbpf_set_print(libbpf_print_fn);
+			//libbpf_set_print(libbpf_print_fn);
 
 
 			/* Open, load, and verify BPF application */
