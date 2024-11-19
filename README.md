@@ -14,7 +14,7 @@ On CentOS/Fedora, you need:
 $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 ```
 
-## C Examples
+## How to compile and run
 
 Makefile build:
 
