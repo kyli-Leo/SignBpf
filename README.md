@@ -18,7 +18,7 @@ $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 
 Makefile build:
 
-```shell
+```
 $ cd source
 $ make
 $ sudo ./lsm (with additional argument)
