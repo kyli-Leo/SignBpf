@@ -1,0 +1,37 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool-build"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool-build.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-build.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-configure.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-patch.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-update.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-download.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-mkdir.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bpftool"
+		],
+		"name" : "bpftool-build"
+	}
+}

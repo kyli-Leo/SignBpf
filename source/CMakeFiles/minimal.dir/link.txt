@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/minimal.dir/minimal.c.o -o minimal  libbpf/libbpf.a -lelf -lz 

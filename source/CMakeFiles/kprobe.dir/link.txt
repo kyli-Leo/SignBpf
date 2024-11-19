@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/kprobe.dir/kprobe.c.o -o kprobe  libbpf/libbpf.a -lelf -lz 

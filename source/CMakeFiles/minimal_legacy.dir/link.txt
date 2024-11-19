@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/minimal_legacy.dir/minimal_legacy.c.o -o minimal_legacy  libbpf/libbpf.a -lelf -lz 

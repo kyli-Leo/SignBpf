@@ -1,4 +1,7 @@
 /build
-/examples/c/build
-/examples/c/.xmake
 /.idea
+/lsm
+/cmake-build-debug/
+/cmake-build-release/
+/CMakeCache.txt
+/cmake_install.cmake

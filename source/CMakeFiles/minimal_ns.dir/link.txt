@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/minimal_ns.dir/minimal_ns.c.o -o minimal_ns  libbpf/libbpf.a -lelf -lz 

@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/bootstrap.dir/bootstrap.c.o -o bootstrap  libbpf/libbpf.a -lelf -lz 

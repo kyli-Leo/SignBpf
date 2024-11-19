@@ -1,0 +1,7 @@
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf-build.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool-build.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/lsm.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/edit_cache.dir
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/rebuild_cache.dir

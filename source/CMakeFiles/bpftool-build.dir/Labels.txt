@@ -1,0 +1,11 @@
+# Target labels
+ bpftool
+# Source files and their labels
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool-build
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/bpftool-build.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-build.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-configure.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-patch.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-update.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-download.rule
+/home/leo/Documents/libbpf-bootstrap/source/bpftool/src/bpftool-stamp/bpftool-mkdir.rule

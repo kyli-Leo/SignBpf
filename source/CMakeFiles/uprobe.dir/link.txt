@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/uprobe.dir/uprobe.c.o -o uprobe  libbpf/libbpf.a -lelf -lz 

@@ -1,0 +1,13 @@
+# Target labels
+ libbpf
+# Source files and their labels
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf.rule
+/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf-complete.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-build.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-configure.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-download.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-install.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-mkdir.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-patch.rule
+/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-update.rule

@@ -1,0 +1,37 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf-build"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/CMakeFiles/libbpf-build.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-build.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-configure.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-patch.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-update.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-download.rule"
+		},
+		{
+			"file" : "/home/leo/Documents/libbpf-bootstrap/source/libbpf/src/libbpf-stamp/libbpf-mkdir.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"libbpf"
+		],
+		"name" : "libbpf-build"
+	}
+}
