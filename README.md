@@ -19,10 +19,9 @@ $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 Makefile build:
 
 ```shell
-$ git submodule update --init --recursive       # check out libbpf
-$ cd examples/c
+$ cd source
 $ make
-$ sudo ./bootstrap
+$ sudo ./lsm (with additional argument)
 TIME     EVENT COMM             PID     PPID    FILENAME/EXIT CODE
 00:21:22 EXIT  python3.8        4032353 4032352 [0] (123ms)
 00:21:22 EXEC  mkdir            4032379 4032337 /usr/bin/mkdir
