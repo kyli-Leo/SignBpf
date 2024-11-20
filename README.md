@@ -44,17 +44,11 @@ Makefile build:
 ```
 $ cd source
 $ make
-$ sudo ./lsm (with additional argument)
-TIME     EVENT COMM             PID     PPID    FILENAME/EXIT CODE
-00:21:22 EXIT  python3.8        4032353 4032352 [0] (123ms)
-00:21:22 EXEC  mkdir            4032379 4032337 /usr/bin/mkdir
-00:21:22 EXIT  mkdir            4032379 4032337 [0] (1ms)
-00:21:22 EXEC  basename         4032382 4032381 /usr/bin/basename
-00:21:22 EXIT  basename         4032382 4032381 [0] (0ms)
-00:21:22 EXEC  sh               4032381 4032380 /bin/sh
-00:21:22 EXEC  dirname          4032384 4032381 /usr/bin/dirname
-00:21:22 EXIT  dirname          4032384 4032381 [0] (1ms)
-00:21:22 EXEC  readlink         4032387 4032386 /usr/bin/readlink
+$ sudo ./lsm ./sampleSignature.txt  sampleSignature.txt testChecksum.txt ./test.sh
+checksum file read: Success
+The sha256 checksum does not match
+Now executing the software with limit
+cat: ./sampleSignature.txt: Operation not permitted
 ^C
 ```
 
