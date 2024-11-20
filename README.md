@@ -28,7 +28,7 @@ If the output is correct, check if BPF is enabled in lsm output.
 
 ``` shell
 $ cat /sys/kernel/security/lsm
-ndlock,lockdown,yama,integrity,apparmor, bpf
+ndlock,lockdown,yama,integrity,apparmor,bpf
 ```
 
 If the output does not have bpf, edit `/etc/default/grub`:
