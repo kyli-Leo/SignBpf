@@ -60,7 +60,7 @@ TIME     EVENT COMM             PID     PPID    FILENAME/EXIT CODE
 
 
 # Troubleshooting
-In case that editting `GRUB_CMDLINE_LINUX` does not work, try the following (... means the original settings)
+In case that editting `GRUB_CMDLINE_LINUX` does not work, try the following (... means the original settings, please don't mess that up)
 
 ```
 GRUB_CMDLINE_LINUX_DEFAULT=" ... lsm=bpf"
