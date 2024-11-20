@@ -6,7 +6,9 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/resource.h>
+#include <sys/prctl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <bpf/libbpf.h>
 #include "lsm.skel.h"
@@ -164,6 +166,18 @@ int main(int argc, char **argv)
 			char buf;
 			close(pipefd[1]); 
         	read(pipefd[0], &buf, 1);
+
+			uid_t userId = getuid();
+			if (setuid(userId) != 0) {
+				perror("setuid");
+				close(pipefd[0]);
+				return 1;
+			}
+			if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0) {
+				perror("prctl")
+				close(pipefd[0]);
+				return 1;
+			}
 			if (execvp(argv[4], &argv[4]) == -1) {
 				perror("execvp");  
 				close(pipefd[0]);

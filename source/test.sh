@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat ./fentry.c
+cat ./sampleSignature.txt
