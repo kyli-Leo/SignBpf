@@ -1,5 +1,6 @@
-## SignBpf base on libbpf-bootstrap: an ebpf program that checks signature and limit resources of unsigned executable
+# SignBpf base on libbpf-bootstrap: an ebpf program that checks signature and limit resources of unsigned executable
 ## Install Dependencies
+The program requires you to have the dependencies to run libbpf and lsm
 
 ### Basic Dependnecies
 
