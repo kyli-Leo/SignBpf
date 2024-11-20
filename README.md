@@ -1,8 +1,10 @@
 # SignBpf base on libbpf-bootstrap: a bpf program that checks signature and limit resources of unsigned executable
 ## Install Dependencies
 
+### Basic Dependnecies
+
 You will need `clang` (at least v11 or later), `libelf` and `zlib` to build
-the examples, package names may vary across distros.
+our program
 
 On Ubuntu/Debian, you need:
 ```shell
@@ -13,8 +15,16 @@ On CentOS/Fedora, you need:
 ```shell
 $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 ```
+### LSM availability
+Your linux keneral version needs to be higher than 5.7 to have LSM.
+You would need to check that if your kernel enables LSM to ensure the correct functionality of the program.
 
-## How to compile and run
+``` shell
+$ cat /boot/config-$(uname -r) | grep BPF_LSM
+CONFIG_BPF_LSM=y
+```
+
+## How to Compile and Run
 
 Makefile build:
 
