@@ -1,4 +1,4 @@
-# SignBpf base on libbpf-bootstrap: a bpf program that checks signature and limit resources of unsigned executable
+ # SignBpf base on libbpf-bootstrap: a bpf program that checks signature and limit resources of unsigned executable
 ## Install Dependencies
 
 ### Basic Dependnecies
@@ -24,6 +24,19 @@ $ cat /boot/config-$(uname -r) | grep BPF_LSM
 CONFIG_BPF_LSM=y
 ```
 
+If the output is correct, check if BPF is enabled in lsm output.
+
+``` shell
+$ cat /sys/kernel/security/lsm
+ndlock,lockdown,yama,integrity,apparmor, bpf
+```
+
+If the output does not have bpf, edit `/etc/default/grub`:
+```
+GRUB_CMDLINE_LINUX="lsm=ndlock,lockdown,yama,integrity,apparmor,bpf"
+```
+Then update the grub configuration and restart the system (Check again to make sure you reach the requirement).
+
 ## How to Compile and Run
 
 Makefile build:
@@ -47,4 +60,9 @@ TIME     EVENT COMM             PID     PPID    FILENAME/EXIT CODE
 
 
 # Troubleshooting
+In case that editting `GRUB_CMDLINE_LINUX` does not work, try the following (... means the original settings)
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT=" ... lsm=bpf"
+GRUB_CMDLINE_LINUX="lsm= ...bpf"
 ```
