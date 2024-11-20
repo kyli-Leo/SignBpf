@@ -1,4 +1,8 @@
-# SignBpf base on libbpf-bootstrap: an ebpf program that checks signature and limit resources of unsigned executable
+# SignBpf: an ebpf program base on libbpf-bootstrap that checks signature and limit resources of unsigned executable
+
+## General Inforamtion
+SignBpf aims to work as a white-list version of chroot. Instead of limiting the software to a new directory, we allow users to limit certain directories that they do not want the uncertified program to access. SignBpf would reject the access of those directories in system calls. However, keep in mind that we only block the file access and other access are still possible. This is not a virtual sandbox.
+
 ## Install Dependencies
 The program requires you to have the dependencies to run libbpf and lsm
 
