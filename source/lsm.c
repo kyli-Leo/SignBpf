@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <signal.h>
 #include <sys/resource.h>
 #include <sys/prctl.h>
@@ -21,10 +22,34 @@
 	//return vfprintf(stderr, format, args);
 //}
 
+/*
+ * Clean input from file
+ *
+ * 
+ */
+
+void clean_line(char *line) {
+    size_t length = strlen(line);
+	// Remove trailing space
+    while (length > 0 && isspace((unsigned char)line[length - 1])) {
+        line[length - 1] = '\0';
+		length -= 1;
+    }
+	// Remove leading whitespace
+    char *start = line;
+    while (*start && isspace((unsigned char)*start)) {
+        start++;
+    }
+	if (start != line) {
+        memmove(line, start, strlen(start) + 1);
+    }
+}
+
 /* Method to compute the checksum from the file and output it to sha256_output
  * Return 0 if no error, else return 1
  * 
  */
+
 int compute_sha256(const char *executable_path, char *sha256_output) {
 	char command [512];
 	snprintf(command, sizeof(command), "sha256sum %s", executable_path);
@@ -62,6 +87,7 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 		perror("checksum file read");
 		return 1;
 	}
+	clean_line(checksum);
 	fclose(file);
 
 	// Compare the checksums
@@ -118,12 +144,17 @@ int main(int argc, char **argv)
 
 		if (!S_ISREG(stats.st_mode) || access(argv[3], R_OK) != 0) {
 			fprintf(stderr, "Checksum does not exist or no permission to read\n");
-			return -1;
+			return 1;
 		}
 		if (stat(argv[1], &stats) != 0) {
             perror(" limit path stat");
             return 1;
         }
+
+		if (!S_ISREG(stats.st_mode) || access(argv[1], R_OK) != 0) {
+			fprintf(stderr, "Limit file does not exist or no permission to read\n");
+			return 1;
+		}
 
 	} else {
 		printf("Usage: lsm [path to restrict path] [path to signature] [path to checksum] [path to execuatable] [...] additional argument\n");
@@ -209,20 +240,29 @@ int main(int argc, char **argv)
 				goto cleanup;
 			}
 			struct stat stats2;
-			if (stat(argv[1], &stats2) != 0) {
-				perror("stat 2");
+			__u32 value = 1; 
+			__u32 pid_u32 = (__u32)pid;
+			FILE *limit_file = fopen(argv[1], "r");;
+			if (limit_file == NULL) {
 				kill(pid, SIGKILL);
 				goto cleanup;
 			}
-			__u64 restricted_inode = stats2.st_ino;  
-			__u32 value = 1; 
-			__u32 pid_u32 = (__u32)pid;
+    		char buffer[2048];
+			memset(buffer, '\0', sizeof(buffer));
+			while (fgets(buffer, sizeof(buffer), limit_file) != NULL) {
+				clean_line(buffer);
+				if (stat(buffer, &stats2) != 0) {
+					continue;
+				}
+				__u64 restricted_inode = stats2.st_ino; 
+				err = bpf_map__update_elem(skel->maps.restricted_inodes_map, &restricted_inode, sizeof(restricted_inode), &value, sizeof(value), BPF_ANY);
+				if (err) {
+					fprintf(stderr, "Failed to update BPF map restricted inode\n");
+					kill(pid, SIGKILL);
+					goto cleanup;
+				} 
+				printf("Directory %s is added to the limit list\n", buffer);
 
-			err = bpf_map__update_elem(skel->maps.restricted_inodes_map, &restricted_inode, sizeof(restricted_inode), &value, sizeof(value), BPF_ANY);
-			if (err) {
-				fprintf(stderr, "Failed to update BPF map element\n");
-				kill(pid, SIGKILL);
-				goto cleanup;
 			}
 
 			err = bpf_map__update_elem(skel->maps.restricted_pid_map, &pid_u32, sizeof(pid_u32), &value, sizeof(value), BPF_ANY);
