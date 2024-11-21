@@ -167,14 +167,22 @@ int main(int argc, char **argv)
 			close(pipefd[1]); 
         	read(pipefd[0], &buf, 1);
 
-			uid_t userId = getuid();
+			const char *sudo_uid= getenv("SUDO_UID");
+			const char *sudo_gid = getenv("SUDO_GID");
+			uid_t userId = (uid_t)atoi(sudo_uid);
+			gid_t groupId = (gid_t)atoi(sudo_gid);
+			if (setgid(groupId) != 0) {
+				perror("setgid");
+				close(pipefd[0]);
+				return 1;
+			}
 			if (setuid(userId) != 0) {
 				perror("setuid");
 				close(pipefd[0]);
 				return 1;
 			}
 			if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0) {
-				perror("prctl")
+				perror("prctl");
 				close(pipefd[0]);
 				return 1;
 			}
@@ -190,7 +198,7 @@ int main(int argc, char **argv)
 			int err;
 
 			/* Set up libbpf errors and debug info callback */
-			//libbpf_set_print(libbpf_print_fn);
+			// libbpf_set_print(libbpf_print_fn);
 
 
 			/* Open, load, and verify BPF application */
@@ -236,6 +244,11 @@ int main(int argc, char **argv)
 
 			int status;
 			waitpid(pid, &status, 0);  
+			__u64 key = 0, next_key = 0;
+			while (bpf_map__get_next_key(skel->maps.inode_access_map, &key, &next_key, sizeof(__u64)) == 0) {
+				printf("Caution: The unverified programm tried to access inode: %llu which is prohibited!\n", next_key);
+				key = next_key; 
+			}
 			cleanup:
 				close(pipefd[1]);
 				lsm_bpf__destroy(skel);

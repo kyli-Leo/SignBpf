@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat ./sampleSignature.txt
+cat /etc/passwd

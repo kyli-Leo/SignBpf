@@ -19,6 +19,13 @@ struct {
     __uint(max_entries, 30);  
 } restricted_pid_map SEC(".maps");
 
+struct {
+    __uint(type, BPF_MAP_TYPE_HASH);
+    __type(key, __u64);  // Key: Inode number that have been access and rejected
+    __type(value, __u32); // Value: Does not really matter but fill for 1.
+    __uint(max_entries, 1024);  
+} inode_access_map SEC(".maps");
+
 SEC("lsm/inode_permission")
 int BPF_PROG(lsm_bpf, struct inode *inode, int mask)
 {
@@ -30,6 +37,8 @@ int BPF_PROG(lsm_bpf, struct inode *inode, int mask)
     __u64 target_inode = inode->i_ino;
     __u32 *is_restricted_inode = bpf_map_lookup_elem(&restricted_inodes_map, &target_inode);
     if (is_restricted_inode) {
+        __u32 placeholder = 1;
+        bpf_map_update_elem(&inode_access_map, &target_inode, &placeholder, BPF_ANY);
         return -EPERM;
     }
     return 0;

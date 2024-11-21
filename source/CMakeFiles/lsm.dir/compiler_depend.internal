@@ -23,6 +23,7 @@ CMakeFiles/lsm.dir/lsm.c.o
  /usr/include/features.h
  /usr/include/linux/errno.h
  /usr/include/linux/posix_types.h
+ /usr/include/linux/prctl.h
  /usr/include/linux/stddef.h
  /usr/include/linux/types.h
  /usr/include/signal.h
@@ -117,6 +118,7 @@ CMakeFiles/lsm.dir/lsm.c.o
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h
  /usr/include/x86_64-linux-gnu/gnu/stubs.h
  /usr/include/x86_64-linux-gnu/sys/cdefs.h
+ /usr/include/x86_64-linux-gnu/sys/prctl.h
  /usr/include/x86_64-linux-gnu/sys/resource.h
  /usr/include/x86_64-linux-gnu/sys/select.h
  /usr/include/x86_64-linux-gnu/sys/stat.h

@@ -22,6 +22,7 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
   /usr/include/features.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/posix_types.h \
+  /usr/include/linux/prctl.h \
   /usr/include/linux/stddef.h \
   /usr/include/linux/types.h \
   /usr/include/signal.h \
@@ -116,6 +117,7 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/gnu/stubs.h \
   /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/sys/prctl.h \
   /usr/include/x86_64-linux-gnu/sys/resource.h \
   /usr/include/x86_64-linux-gnu/sys/select.h \
   /usr/include/x86_64-linux-gnu/sys/stat.h \
@@ -128,13 +130,15 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
-
 /usr/include/x86_64-linux-gnu/sys/wait.h:
 
 /usr/include/x86_64-linux-gnu/sys/ucontext.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
+
+/usr/include/x86_64-linux-gnu/sys/prctl.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -204,6 +208,8 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
 
 /usr/include/x86_64-linux-gnu/bits/signal_ext.h:
 
+/usr/include/x86_64-linux-gnu/bits/siginfo-consts.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
 
 /usr/include/linux/posix_types.h:
@@ -234,13 +240,13 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/asm-generic/posix_types.h:
-
 libbpf/bpf/libbpf.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/asm-generic/posix_types.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
@@ -354,11 +360,11 @@ libbpf/linux/bpf_common.h:
 
 /usr/include/stdio.h:
 
+/usr/include/linux/prctl.h:
+
 /usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
-
-/usr/include/x86_64-linux-gnu/bits/siginfo-consts.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
