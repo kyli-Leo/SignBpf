@@ -31,13 +31,13 @@
 void clean_line(char *line) {
     size_t length = strlen(line);
 	// Remove trailing whitespace and newline
-    while (length > 0 && (isspace((unsigned char)line[length - 1])) || line[length - 1] == '\n') {
+    while (length > 0 && (isspace((unsigned char)line[length - 1]))) {
         line[length - 1] = '\0';
 		length -= 1;
     }
 	// Remove leading whitespace and newline
     char *start = line;
-    while (*start && (isspace((unsigned char)*start)) || *start == '\n') {
+    while (*start && (isspace((unsigned char)*start))) {
         start++;
     }
 	if (start != line) {
