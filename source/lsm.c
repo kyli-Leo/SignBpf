@@ -73,7 +73,7 @@ int compute_sha256(const char *executable_path, char *sha256_output) {
 */
 
 int compare_sha256(const char *actual_checksum_path, const char *computed_sha256) {
-	char checksum[65];
+	char checksum[65]; // 64 characters + 1 null terminator
 
 	// Open the checksum file
 	FILE *file = fopen(actual_checksum_path, "r");
@@ -85,11 +85,13 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 	// Read the checksum file
 	if (fgets(checksum, 65, file) == NULL) {
 		perror("checksum file read");
+		fclose(file);
 		return 1;
 	}
-	clean_line(checksum);
+	// clean_line(checksum);
 	fclose(file);
 
+	checksum[strcspn(checksum, "\n")] = '\0';
 	// Compare the checksums
 	if (strcmp(checksum, computed_sha256) != 0) {
 		return 1;
