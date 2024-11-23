@@ -30,14 +30,14 @@
 
 void clean_line(char *line) {
     size_t length = strlen(line);
-	// Remove trailing space
-    while (length > 0 && isspace((unsigned char)line[length - 1])) {
+	// Remove trailing whitespace and newline
+    while (length > 0 && (isspace((unsigned char)line[length - 1])) || line[length - 1] == '\n') {
         line[length - 1] = '\0';
 		length -= 1;
     }
-	// Remove leading whitespace
+	// Remove leading whitespace and newline
     char *start = line;
-    while (*start && isspace((unsigned char)*start)) {
+    while (*start && (isspace((unsigned char)*start)) || *start == '\n') {
         start++;
     }
 	if (start != line) {
@@ -88,10 +88,11 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 		fclose(file);
 		return 1;
 	}
-	// clean_line(checksum);
+	clean_line(checksum);
+	clean_line(computed_sha256);
 	fclose(file);
 
-	checksum[strcspn(checksum, "\n")] = '\0';
+	// checksum[strcspn(checksum, "\n")] = '\0';
 	// Compare the checksums
 	if (strcmp(checksum, computed_sha256) != 0) {
 		return 1;
