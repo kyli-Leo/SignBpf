@@ -16,6 +16,9 @@ On Ubuntu/Debian, you need:
 $ apt install clang libelf1 libelf-dev zlib1g-dev
 ```
 
+You need bpftool to build the source code
+Go to libbpftool and call `make install`
+
 On CentOS/Fedora, you need:
 ```shell
 $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
