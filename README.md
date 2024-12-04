@@ -21,7 +21,8 @@ $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 ```
 We recommend running the program on Ubuntu as that's what we used in development.
 
-You need `bpftool` to build the source code
+You need `bpftool` to build the source code.
+
 Go to bpftool folder and run `make install`
 
 ### LSM availability
