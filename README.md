@@ -9,20 +9,21 @@ The program requires you to have the dependencies to run libbpf and lsm
 ### Basic Dependnecies
 
 You will need `clang` (at least v11 or later), `libelf` and `zlib` to build
-our program
+our program.
 
 On Ubuntu/Debian, you need:
 ```shell
 $ apt install clang libelf1 libelf-dev zlib1g-dev
 ```
-
-You need bpftool to build the source code
-Go to libbpftool and call `make install`
-
 On CentOS/Fedora, you need:
 ```shell
 $ dnf install clang elfutils-libelf elfutils-libelf-devel zlib-devel
 ```
+We recommend running the program on Ubuntu as that's what we used in development.
+
+You need `bpftool` to build the source code
+Go to bpftool folder and run `make install`
+
 ### LSM availability
 Your linux keneral version needs to be higher than 5.7 to have LSM.
 You would need to check that if your kernel enables LSM to ensure the correct functionality of the program.
