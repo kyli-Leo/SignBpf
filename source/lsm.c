@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2024 David Di */
+#include <search.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -89,7 +90,6 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 		return 1;
 	}
 	clean_line(checksum);
-	clean_line(computed_sha256);
 	fclose(file);
 
 	// checksum[strcspn(checksum, "\n")] = '\0';
@@ -252,6 +252,14 @@ int main(int argc, char **argv)
 			}
     		char buffer[2048];
 			memset(buffer, '\0', sizeof(buffer));
+			ENTRY **entry_pointers;  // Array to store ENTRY pointers
+			size_t entry_count = 0;
+			entry_pointers = malloc(sizeof(ENTRY *) * 1024);
+			if (hcreate(1024) == 0) {
+				perror("hcreate");
+				kill(pid, SIGKILL);
+				goto cleanup;
+			}
 			while (fgets(buffer, sizeof(buffer), limit_file) != NULL) {
 				clean_line(buffer);
 				if (stat(buffer, &stats2) != 0) {
@@ -265,6 +273,28 @@ int main(int argc, char **argv)
 					goto cleanup;
 				} 
 				printf("Directory %s is added to the limit list\n", buffer);
+
+				/* Add the path to hashtable to enable O(1) lookup*/
+				char *inode_key = malloc(32); // Allocate space for inode key
+				if (!inode_key) {
+					perror("inode_key");
+					kill(pid, SIGKILL);
+					goto cleanup;
+				}
+				snprintf(inode_key, 32, "%llu", restricted_inode);
+				ENTRY e, *ep;
+				e.key = inode_key;
+				e.data = strdup(buffer);
+				ep = hsearch(e, ENTER);
+				if (!ep) {
+					perror("Hashtable enter");
+					free(e.key);
+					free(e.data);
+					kill(pid, SIGKILL);
+					goto cleanup;
+				} else {
+					entry_pointers[entry_count++] = ep;
+				}
 
 			}
 
@@ -288,11 +318,28 @@ int main(int argc, char **argv)
 			int status;
 			waitpid(pid, &status, 0);  
 			__u64 key = 0, next_key = 0;
+			char search_key[32];
 			while (bpf_map__get_next_key(skel->maps.inode_access_map, &key, &next_key, sizeof(__u64)) == 0) {
-				printf("Caution: The unverified programm tried to access inode: %llu which is prohibited!\n", next_key);
+				snprintf(search_key, 32, "%llu", next_key); 
+    			ENTRY query, *found_entry;
+    			query.key = search_key;
+    			found_entry = hsearch(query, FIND);
+
+				if (found_entry) {
+					printf("Caution: The unverified programm tried to access path: %s which is prohibited!\n", (char *)found_entry->data);
+				} else {
+					printf("Caution: The unverified programm tried to access inode: %llu which is prohibited!\n", next_key);
+				}
+
 				key = next_key; 
 			}
 			cleanup:
+				for (size_t i = 0; i < entry_count; i++) {
+					free(entry_pointers[i]->key);
+					free(entry_pointers[i]->data);
+				}
+				free(entry_pointers);  
+				hdestroy();
 				close(pipefd[1]);
 				lsm_bpf__destroy(skel);
 				return -err;

@@ -27,6 +27,7 @@ CMakeFiles/lsm.dir/lsm.c.o
  /usr/include/linux/prctl.h
  /usr/include/linux/stddef.h
  /usr/include/linux/types.h
+ /usr/include/search.h
  /usr/include/signal.h
  /usr/include/stdc-predef.h
  /usr/include/stdint.h

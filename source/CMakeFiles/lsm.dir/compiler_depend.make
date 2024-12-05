@@ -26,6 +26,7 @@ CMakeFiles/lsm.dir/lsm.c.o: lsm.c \
   /usr/include/linux/prctl.h \
   /usr/include/linux/stddef.h \
   /usr/include/linux/types.h \
+  /usr/include/search.h \
   /usr/include/signal.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
@@ -171,10 +172,6 @@ libbpf/linux/bpf_common.h:
 
 /usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
 
-/usr/include/x86_64-linux-gnu/bits/sigthread.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
 /usr/include/asm-generic/int-ll64.h:
 
 /usr/include/asm-generic/errno.h:
@@ -185,13 +182,13 @@ lsm.c:
 
 /usr/include/x86_64-linux-gnu/asm/types.h:
 
-libbpf/bpf/libbpf_common.h:
-
 /usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/asm-generic/types.h:
+
+libbpf/bpf/libbpf_common.h:
 
 /usr/include/alloca.h:
 
@@ -227,8 +224,6 @@ libbpf/bpf/libbpf_version.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
-/usr/include/x86_64-linux-gnu/asm/posix_types.h:
-
 /usr/include/linux/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
@@ -242,8 +237,6 @@ libbpf/bpf/libbpf_version.h:
 libbpf/bpf/libbpf_legacy.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
-
-libbpf/bpf/libbpf.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
@@ -269,6 +262,10 @@ libbpf/bpf/libbpf.h:
 
 /usr/include/features-time64.h:
 
+libbpf/bpf/libbpf.h:
+
+/usr/include/search.h:
+
 /usr/include/linux/types.h:
 
 /usr/include/signal.h:
@@ -286,6 +283,12 @@ libbpf/bpf/libbpf.h:
 /usr/include/linux/posix_types.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
+
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/x86_64-linux-gnu/bits/sigthread.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/stat.h:
 
