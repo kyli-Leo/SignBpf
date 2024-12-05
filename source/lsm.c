@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
 /* Copyright (c) 2024 David Di */
 #include <search.h>
+#include <pwd.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -107,7 +108,31 @@ int compare_sha256(const char *actual_checksum_path, const char *computed_sha256
 */
 
 int checkSignature(const char *actual_checksum_path, const char *signature_path) {
-	return 0;
+	char command[512];
+    int result;
+	const char *sudo_uid= getenv("SUDO_UID");
+	uid_t userId = (uid_t)atoi(sudo_uid);
+	struct passwd *pw = getpwuid(userId);
+    if (!pw || !pw->pw_dir) {
+        perror("pw");
+        return 1;
+    }
+	const char * home_dir = pw->pw_dir;
+
+    if (!home_dir) {
+        perror("home_dir");
+        return 1;
+    }
+	snprintf(command, sizeof(command), "gpg --homedir %s/.gnupg --verify %s %s", home_dir, signature_path, actual_checksum_path);
+	result = system(command);
+
+    if (result == 0) {
+        printf("Signature is valid\n");
+        return 0;
+    } else {
+        printf("Signature verification failed\n");
+        return 1; 
+    }
 }
 
 
@@ -125,8 +150,8 @@ int main(int argc, char **argv)
 	if (argc >= 5) {
 		struct stat stats;
 		if (stat(argv[4], &stats) != 0) {
-        		perror("stat");
-     		   	return 1;
+			perror("stat");
+			return 1;
     	}
 		if (!S_ISREG(stats.st_mode) || access(argv[4], X_OK) != 0) {
 			fprintf(stderr, "File does not exist or no permission to execute\n");
@@ -160,7 +185,7 @@ int main(int argc, char **argv)
 		}
 
 	} else {
-		printf("Usage: lsm [path to restrict path] [path to signature] [path to checksum] [path to execuatable] [...] additional argument\n");
+		printf("Usage: sudo ./lsm [path to restrict path] [path to signature] [path to checksum] [path to execuatable] [...] additional argument\n");
 		return 0;
 	}
 
@@ -173,10 +198,8 @@ int main(int argc, char **argv)
 		printf("The sha256 checksum matched\n");
 		if (!checkSignature(argv[3], argv[2])) {
 			limit = 0;
-			printf("signature check passed\n");
 		} else {
 			limit = 1;
-			printf("signature check failed\n");
 		}
 	} else {
 		printf("The sha256 checksum does not match\n");
