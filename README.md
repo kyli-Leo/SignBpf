@@ -8,6 +8,8 @@ The program requires you to have the dependencies to run libbpf and lsm
 
 ### Basic Dependnecies
 
+You need to have `sha256sum` and `gpg` installed. Usually they should be pre-installed in Linux.
+
 You will need `clang` (at least v11 or later), `libelf` and `zlib` to build
 our program.
 
